@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YSG Consulting AI Automation for Business Growth</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--black:#050505;--white:#f5f5f0;--gray:#888;--border:rgba(255,255,255,0.08);}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden;cursor:none;}
+.cursor{position:fixed;width:8px;height:8px;background:white;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
+.cursor-follower{position:fixed;width:32px;height:32px;border:1px solid rgba(255,255,255,0.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,opacity .2s;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.02;pointer-events:none;z-index:1000;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:24px 60px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid transparent;transition:border-color .3s,background .3s;}
+nav.scrolled{background:rgba(5,5,5,.92);backdrop-filter:blur(16px);border-color:var(--border);}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:4px;color:var(--white);text-decoration:none;}
+.logo span{display:inline-block;border:1px solid var(--white);padding:2px 10px;margin-right:6px;}
+nav a.nav-cta{font-size:13px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--black);background:var(--white);padding:10px 24px;text-decoration:none;transition:opacity .2s;}
+nav a.nav-cta:hover{opacity:.8;}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:140px 60px 80px;overflow:hidden;}
+.hero-content{position:relative;z-index:2;}
+.hero-eyebrow{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:32px;opacity:0;animation:fadeUp .8s .3s forwards;}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(72px,10vw,158px);line-height:.92;letter-spacing:2px;max-width:960px;margin-bottom:40px;opacity:0;animation:fadeUp .9s .5s forwards;}
+.hero h1 em{font-style:normal;-webkit-text-stroke:1px rgba(255,255,255,.7);color:transparent;}
+.hero-sub{font-size:clamp(15px,1.6vw,19px);font-weight:300;color:rgba(245,245,240,.5);max-width:500px;margin-bottom:56px;line-height:1.75;opacity:0;animation:fadeUp .8s .7s forwards;}
+.hero-cta-group{display:flex;gap:16px;align-items:center;opacity:0;animation:fadeUp .8s .9s forwards;}
+.btn-primary{display:inline-block;background:var(--white);color:var(--black);font-size:13px;font-weight:500;letter-spacing:2px;text-transform:uppercase;padding:18px 40px;text-decoration:none;transition:transform .2s,opacity .2s;position:relative;overflow:hidden;}
+.btn-primary::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.08);transform:translateX(-100%);transition:transform .3s;}
+.btn-primary:hover::after{transform:translateX(0);}
+.btn-primary:hover{transform:translateY(-2px);}
+.btn-ghost{display:inline-block;border:1px solid rgba(255,255,255,.2);color:var(--white);font-size:13px;font-weight:400;letter-spacing:2px;text-transform:uppercase;padding:18px 40px;text-decoration:none;transition:border-color .2s,background .2s;}
+.btn-ghost:hover{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.04);}
+.hero-scroll-hint{position:absolute;bottom:40px;left:60px;z-index:2;display:flex;align-items:center;gap:12px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.25);opacity:0;animation:fadeUp .8s 1.3s forwards;}
+.scroll-line{width:40px;height:1px;background:rgba(255,255,255,.15);position:relative;overflow:hidden;}
+.scroll-line::after{content:'';position:absolute;left:-100%;top:0;width:100%;height:100%;background:rgba(255,255,255,.6);animation:scrollLine 2s 1.5s infinite;}
+
+/* SHARED */
+section{padding:120px 60px;}
+.section-label{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gray);margin-bottom:24px;display:flex;align-items:center;gap:16px;}
+.section-label::before{content:'';display:inline-block;width:24px;height:1px;background:var(--gray);}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,6vw,88px);line-height:.95;margin-bottom:60px;letter-spacing:1px;}
+
+/* ── SERVICES space bg, separated cards ── */
+.services-section{position:relative;overflow:hidden;}
+.services-section .section-label,
+.services-section .section-title{position:relative;z-index:2;}
+.services-grid{position:relative;z-index:2;display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+.service-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);padding:48px 40px;transition:transform .35s cubic-bezier(.22,1,.36,1),background .35s,border-color .35s,box-shadow .35s;cursor:default;}
+.service-card:hover{transform:scale(1.04);background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.25);box-shadow:0 0 40px rgba(255,255,255,.06),0 0 80px rgba(255,255,255,.03);}
+.service-num{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:3px;color:var(--gray);margin-bottom:24px;}
+.service-card h3{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:1px;margin-bottom:16px;line-height:1;}
+.service-card p{font-size:15px;font-weight:300;color:rgba(245,245,240,.5);line-height:1.7;}
+.service-tag{display:inline-block;margin-top:24px;font-size:11px;letter-spacing:2px;text-transform:uppercase;border:1px solid rgba(255,255,255,.1);padding:6px 14px;color:var(--gray);transition:border-color .3s,color .3s;}
+.service-card:hover .service-tag{border-color:rgba(255,255,255,.3);color:rgba(255,255,255,.6);}
+
+/* ── FOR SECTION white hover ── */
+.for-section{background:#0f0f0f;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.for-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+.for-left{}
+.for-tags{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;}
+.for-tag{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;border:1px solid rgba(255,255,255,.1);padding:12px 20px;color:rgba(245,245,240,.55);transition:background .25s,border-color .25s,color .25s,transform .25s;cursor:default;}
+.for-tag:hover{background:white;color:black;border-color:white;transform:scale(1.06);}
+.for-text{padding-top:8px;}
+.for-text p{font-size:17px;font-weight:300;color:rgba(245,245,240,.55);line-height:1.85;margin-bottom:20px;}
+.for-text p strong{color:var(--white);font-weight:500;}
+
+/* ── BENEFITS space bg, white on hover ── */
+.benefits-section{position:relative;overflow:hidden;}
+.benefits-section .section-label,
+.benefits-section .section-title{position:relative;z-index:2;}
+.benefits-grid{position:relative;z-index:2;display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+.benefit-box{border:1px solid rgba(255,255,255,.08);padding:44px 36px;transition:transform .35s cubic-bezier(.22,1,.36,1),background .35s,border-color .35s,color .35s,box-shadow .35s;cursor:default;background:rgba(255,255,255,.02);}
+.benefit-box:hover{transform:scale(1.04);background:white;border-color:white;box-shadow:0 0 60px rgba(255,255,255,.12);}
+.benefit-box:hover h4,.benefit-box:hover p,.benefit-box:hover .benefit-icon{color:black;}
+.benefit-icon{font-size:32px;margin-bottom:20px;display:block;transition:color .35s;}
+.benefit-box h4{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;margin-bottom:12px;line-height:1;transition:color .35s;}
+.benefit-box p{font-size:14px;font-weight:300;color:rgba(245,245,240,.5);line-height:1.7;transition:color .35s;}
+
+/* ── WHY US space bg, separated pillars ── */
+.whyus-section{position:relative;overflow:hidden;}
+.whyus-section .section-label,
+.whyus-section .section-title,
+.whyus-text{position:relative;z-index:2;}
+.whyus-inner{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+.whyus-text p{font-size:17px;font-weight:300;color:rgba(245,245,240,.55);line-height:1.85;}
+.pillars{display:flex;flex-direction:column;gap:16px;}
+.pillar{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);padding:32px;display:flex;align-items:flex-start;gap:20px;transition:transform .35s cubic-bezier(.22,1,.36,1),background .35s,border-color .35s,color .35s,box-shadow .35s;cursor:default;}
+.pillar:hover{transform:scale(1.04);background:white;border-color:white;box-shadow:0 0 40px rgba(255,255,255,.1);}
+.pillar:hover .pillar-num,.pillar:hover .pillar-content h4,.pillar:hover .pillar-content p{color:black;}
+.pillar-num{font-family:'Bebas Neue',sans-serif;font-size:40px;line-height:1;color:rgba(255,255,255,.1);min-width:40px;transition:color .35s;}
+.pillar-content h4{font-size:14px;font-weight:500;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;transition:color .35s;}
+.pillar-content p{font-size:14px;font-weight:300;color:rgba(245,245,240,.5);line-height:1.6;transition:color .35s;}
+
+/* ── CAPABILITIES icons on tags ── */
+.capabilities{background:#0a0a0a;}
+.engines{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:60px;}
+.engine-group h3{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;color:var(--gray);margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border);}
+.capability-tags{display:flex;flex-wrap:wrap;gap:8px;}
+.cap-tag{font-size:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);padding:8px 14px;color:rgba(245,245,240,.65);transition:background .2s,border-color .2s,color .2s;cursor:default;display:flex;align-items:center;gap:6px;}
+.cap-tag:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);color:var(--white);}
+.cap-tag .ti{font-size:13px;}
+
+/* ── STATS space bg ── */
+.stats-section{position:relative;overflow:hidden;}
+.stats-section .section-label,
+.stats-section .section-title,
+.stats-intro,
+.stats-grid{position:relative;z-index:2;}
+.stats-intro{max-width:680px;margin-bottom:60px;}
+.stats-intro p{font-size:18px;font-weight:300;color:rgba(245,245,240,.55);line-height:1.8;}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.06);}
+.stat-box{background:rgba(5,5,5,.8);padding:48px 36px;transition:background .2s;}
+.stat-box:hover{background:rgba(15,15,15,.9);}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:72px;line-height:1;margin-bottom:8px;}
+.stat-label{font-size:13px;font-weight:300;color:rgba(245,245,240,.45);line-height:1.5;}
+.stat-source{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.18);margin-top:8px;}
+
+/* FINAL CTA */
+.final-cta{background:var(--white);color:var(--black);text-align:center;padding:140px 60px;}
+.final-cta .section-label{justify-content:center;color:rgba(5,5,5,.35);}
+.final-cta .section-label::before{background:rgba(5,5,5,.35);}
+.final-cta .section-title{color:var(--black);margin-bottom:24px;}
+.final-cta p{font-size:18px;font-weight:300;color:rgba(5,5,5,.55);max-width:480px;margin:0 auto 48px;line-height:1.7;}
+.btn-dark{display:inline-block;background:var(--black);color:var(--white);font-size:13px;font-weight:500;letter-spacing:2px;text-transform:uppercase;padding:20px 48px;text-decoration:none;transition:opacity .2s,transform .2s;}
+.btn-dark:hover{opacity:.82;transform:translateY(-2px);}
+
+/* CONTACT */
+.contact-section{background:#060606;border-top:1px solid var(--border);}
+.contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+.contact-info p{font-size:16px;font-weight:300;color:rgba(245,245,240,.5);line-height:1.8;margin-bottom:16px;}
+.contact-form{display:flex;flex-direction:column;gap:14px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.contact-form input,.contact-form textarea,.contact-form select{width:100%;background:rgba(255,255,255,.03);border:1px solid var(--border);color:var(--white);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:300;padding:16px 20px;outline:none;transition:border-color .2s;-webkit-appearance:none;}
+.contact-form input:focus,.contact-form textarea:focus,.contact-form select:focus{border-color:rgba(255,255,255,.3);}
+.contact-form input::placeholder,.contact-form textarea::placeholder{color:rgba(255,255,255,.18);}
+.contact-form select option{background:#111;}
+.contact-form textarea{height:120px;resize:none;}
+.contact-form button{background:var(--white);color:var(--black);border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;letter-spacing:2px;text-transform:uppercase;padding:18px 40px;cursor:none;transition:opacity .2s;align-self:flex-start;}
+.contact-form button:hover{opacity:.85;}
+
+footer{padding:40px 60px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+footer p{font-size:13px;color:rgba(255,255,255,.18);font-weight:300;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scrollLine{0%{left:-100%}100%{left:100%}}
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .7s,transform .7s;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* ── CSS STAR FIELD (mobile-safe fallback & base) ── */
+.star-bg{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
+.star-bg span{position:absolute;border-radius:50%;background:white;animation:twinkle var(--d,4s) var(--delay,0s) infinite ease-in-out;}
+@keyframes twinkle{0%,100%{opacity:var(--min-op,.1);transform:scale(1);}50%{opacity:var(--max-op,.7);transform:scale(1.3);}}
+@keyframes drift{0%{transform:translate(0,0);}25%{transform:translate(var(--dx1,8px),var(--dy1,-6px));}50%{transform:translate(var(--dx2,-5px),var(--dy2,10px));}75%{transform:translate(var(--dx3,12px),var(--dy3,4px));}100%{transform:translate(0,0);}}
+.star-bg span{animation:twinkle var(--d,4s) var(--delay,0s) infinite ease-in-out, drift calc(var(--d,4s)*3) var(--delay,0s) infinite ease-in-out;}
+
+@media(max-width:900px){
+  nav{padding:16px 20px;} section{padding:70px 20px;} .hero{padding:110px 20px 70px;}
+  .services-grid,.for-inner,.whyus-inner,.contact-inner,.engines,.benefits-grid,.stats-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;} .hero-scroll-hint{left:20px;}
+  footer{flex-direction:column;gap:12px;text-align:center;} body{cursor:auto;} .cursor,.cursor-follower{display:none;}
+  .logo{font-size:22px;letter-spacing:3px;}
+  nav a.nav-cta{font-size:11px;padding:8px 14px;letter-spacing:1px;}
+  .hero-cta-group{flex-direction:column;align-items:flex-start;gap:12px;}
+  .btn-primary,.btn-ghost{padding:16px 28px;font-size:12px;}
+  .stat-num{font-size:52px;}
+  .section-title{margin-bottom:40px;}
+  .engines{gap:32px;}
+}
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-follower" id="cursorFollower"></div>
+
+<nav id="nav">
+  <a href="#" class="logo"><span>YSG</span> Consulting</a>
+  <a href="#contact" class="nav-cta">Book Free Call</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="star-bg" id="hero-stars"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">AI Automation Consulting · Dubai</p>
+    <h1>Turn AI Into <em>Real</em><br>Business Revenue</h1>
+    <p class="hero-sub">We help service businesses implement the right AI workflows so you stop leaving money on the table and start scaling with clarity.</p>
+    <div class="hero-cta-group">
+      <a href="#contact" class="btn-primary">Book Free Consulting Call</a>
+      <a href="#services" class="btn-ghost">Explore Services</a>
+    </div>
+  </div>
+  <div class="hero-scroll-hint"><div class="scroll-line"></div>Scroll</div>
+</section>
+
+<!-- SERVICES space bg -->
+<section class="services-section" id="services">
+  <div class="star-bg" id="services-stars"></div>
+  <p class="section-label reveal">What we offer</p>
+  <h2 class="section-title reveal">How We<br>Help You Win</h2>
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <p class="service-num">01 Free</p>
+      <h3>AI Opportunity Consulting</h3>
+      <p>A focused 1-hour discovery call where we map your workflows, identify automation opportunities, and hand you a clear blueprint of which AI solutions match your business goals at no cost.</p>
+      <span class="service-tag">1hr Discovery Call · Free</span>
+    </div>
+    <div class="service-card">
+      <p class="service-num">02 Audit</p>
+      <h3>AI Opportunity Audit</h3>
+      <p>We go deep into your operations. A full analysis of your Acquisition, Delivery, and Support engines identifying every point where AI can reduce cost, eliminate manual work, and accelerate revenue. Delivered as a prioritised opportunity matrix.</p>
+      <span class="service-tag">Full Audit · Fixed Cost</span>
+    </div>
+    <div class="service-card">
+      <p class="service-num">03 Build</p>
+      <h3>AI Automation Implementation</h3>
+      <p>Once the right solutions are identified, we build and deploy them. Custom AI workflows using n8n, Make.com, and purpose-built integrations fully embedded in your existing operations and ready to generate ROI from day one.</p>
+      <span class="service-tag">Custom Build · Project Based</span>
+    </div>
+    <div class="service-card">
+      <p class="service-num">04 Retainer</p>
+      <h3>AI Partner Program</h3>
+      <p>An ongoing partnership. We train your team, audit workflows monthly, fix issues as they arise, and continuously identify new opportunities so your AI stack stays sharp, your staff stays confident, and your results keep compounding.</p>
+      <span class="service-tag">Monthly Retainer</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOR -->
+<section class="for-section" id="who">
+  <div class="for-inner">
+    <div class="for-left">
+      <p class="section-label reveal">Who it's for</p>
+      <h2 class="section-title reveal">Built For<br>Businesses<br>Like Yours</h2>
+      <div class="for-tags reveal">
+        <span class="for-tag">SMEs</span>
+        <span class="for-tag">Service Businesses</span>
+        <span class="for-tag">Agencies</span>
+        <span class="for-tag">Consulting Firms</span>
+        <span class="for-tag">Professional Services</span>
+        <span class="for-tag">Real Estate</span>
+        <span class="for-tag">Healthcare</span>
+        <span class="for-tag">E-commerce</span>
+      </div>
+    </div>
+    <div class="for-text reveal">
+      <p>You're a <strong>service business</strong> doing real revenue but you know you're leaving efficiency and profit on the table. You've heard about AI, but the noise is overwhelming. <strong>You don't know where to start, what to trust, or what will actually work.</strong></p>
+      <p>That's exactly where we come in. We cut through the confusion, build clarity around the right opportunities, and only recommend what will generate a measurable return. <strong>No fluff. No wasted budget. No experiments you pay for.</strong></p>
+      <p>We treat your business like our own because your results are our reputation.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS space bg, white hover -->
+<section class="benefits-section" id="benefits">
+  <div class="star-bg" id="benefits-stars"></div>
+  <p class="section-label reveal">What you gain</p>
+  <h2 class="section-title reveal">The Outcomes<br>You Can Expect</h2>
+  <div class="benefits-grid reveal">
+    <div class="benefit-box">
+      <span class="benefit-icon"><i class="ti ti-target"></i></span>
+      <h4>Clarity On What To Build</h4>
+      <p>No more guessing. You'll know exactly which AI workflows will move the needle for your business ranked by impact and effort so you invest in the right things first.</p>
+    </div>
+    <div class="benefit-box">
+      <span class="benefit-icon"><i class="ti ti-circuit-board"></i></span>
+      <h4>Implementation That Actually Works</h4>
+      <p>Most AI projects fail in execution. We ensure every solution is properly built, tested, and integrated so it works on day one and keeps working.</p>
+    </div>
+    <div class="benefit-box">
+      <span class="benefit-icon"><i class="ti ti-users"></i></span>
+      <h4>A Team That Can Operate It</h4>
+      <p>Your staff will know how to use and get maximum value from every automation we deploy turning new tools into genuine competitive advantages.</p>
+    </div>
+    <div class="benefit-box">
+      <span class="benefit-icon"><i class="ti ti-trending-up"></i></span>
+      <h4>Revenue Growth & Better Experiences</h4>
+      <p>Faster responses, fewer errors, better follow-through your customers feel the difference. Your revenue reflects it. Your brand becomes known for operational excellence.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US space bg -->
+<section class="whyus-section" id="about">
+  <div class="star-bg" id="whyus-stars"></div>
+  <div class="whyus-inner">
+    <div>
+      <p class="section-label reveal">Why us</p>
+      <h2 class="section-title reveal">We Think<br>Like Business<br>Owners</h2>
+      <div class="whyus-text reveal">
+        <p>At <strong>YSG Consulting</strong>, we've built and run businesses ourselves. We know what keeps owners up at night and what actually moves the numbers. We don't approach your business as technologists we approach it as <strong>operators who understand ROI, growth bottlenecks, and how decisions get made</strong> at every level. Every recommendation we make is filtered through one lens: <strong>will this generate a measurable return?</strong> If the answer isn't clearly yes, we won't recommend it.</p>
+      </div>
+    </div>
+    <div class="pillars reveal">
+      <div class="pillar">
+        <span class="pillar-num">01</span>
+        <div class="pillar-content">
+          <h4>Acquisition Engine</h4>
+          <p>AI opportunities that directly grow your pipeline from lead generation to qualification to CRM automation.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <span class="pillar-num">02</span>
+        <div class="pillar-content">
+          <h4>Delivery Engine</h4>
+          <p>Streamline how you deliver your service reducing manual work, improving consistency, increasing capacity without adding headcount.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <span class="pillar-num">03</span>
+        <div class="pillar-content">
+          <h4>Support Engine</h4>
+          <p>Automate post-sale operations customer communication, issue resolution, and retention workflows that keep clients happy.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAPABILITIES -->
+<section class="capabilities" id="capabilities">
+  <p class="section-label reveal">AI use cases</p>
+  <h2 class="section-title reveal">What AI Can<br>Do For You</h2>
+  <div class="engines reveal">
+    <div class="engine-group">
+      <h3>Acquisition Engine</h3>
+      <div class="capability-tags">
+        <span class="cap-tag"><i class="ti ti-user-check"></i>Lead Qualification</span>
+        <span class="cap-tag"><i class="ti ti-magnet"></i>AI Lead Generation</span>
+        <span class="cap-tag"><i class="ti ti-send"></i>Outreach Automation</span>
+        <span class="cap-tag"><i class="ti ti-file-text"></i>Proposal Generation</span>
+        <span class="cap-tag"><i class="ti ti-calendar"></i>Meeting Booking</span>
+        <span class="cap-tag"><i class="ti ti-pencil"></i>Marketing Content</span>
+        <span class="cap-tag"><i class="ti ti-trending-up"></i>Trend Research</span>
+        <span class="cap-tag"><i class="ti ti-brand-instagram"></i>Social Media Automation</span>
+        <span class="cap-tag"><i class="ti ti-ad"></i>Ad Copy Generation</span>
+        <span class="cap-tag"><i class="ti ti-database"></i>CRM Auto-Update</span>
+        <span class="cap-tag"><i class="ti ti-refresh"></i>Follow-up Sequences</span>
+        <span class="cap-tag"><i class="ti ti-chart-bar"></i>Deal Scoring</span>
+      </div>
+    </div>
+    <div class="engine-group">
+      <h3>Delivery Engine</h3>
+      <div class="capability-tags">
+        <span class="cap-tag"><i class="ti ti-layout-kanban"></i>Project Management AI</span>
+        <span class="cap-tag"><i class="ti ti-robot"></i>Task Automation</span>
+        <span class="cap-tag"><i class="ti ti-file-plus"></i>Document Generation</span>
+        <span class="cap-tag"><i class="ti ti-check"></i>Booking Confirmation</span>
+        <span class="cap-tag"><i class="ti ti-user-plus"></i>Onboarding Workflows</span>
+        <span class="cap-tag"><i class="ti ti-receipt"></i>Invoice Automation</span>
+        <span class="cap-tag"><i class="ti ti-report"></i>Progress Reporting</span>
+        <span class="cap-tag"><i class="ti ti-clock"></i>Resource Scheduling</span>
+        <span class="cap-tag"><i class="ti ti-table"></i>Data Extraction</span>
+        <span class="cap-tag"><i class="ti ti-shield-check"></i>Quality Checks</span>
+        <span class="cap-tag"><i class="ti ti-bell"></i>Internal Notifications</span>
+        <span class="cap-tag"><i class="ti ti-list-check"></i>SOP Automation</span>
+      </div>
+    </div>
+    <div class="engine-group">
+      <h3>Support Engine</h3>
+      <div class="capability-tags">
+        <span class="cap-tag"><i class="ti ti-message-chatbot"></i>AI Customer Response</span>
+        <span class="cap-tag"><i class="ti ti-help"></i>Smart FAQ Bot</span>
+        <span class="cap-tag"><i class="ti ti-route"></i>Complaint Routing</span>
+        <span class="cap-tag"><i class="ti ti-tag"></i>Ticket Categorisation</span>
+        <span class="cap-tag"><i class="ti ti-mood-smile"></i>Sentiment Analysis</span>
+        <span class="cap-tag"><i class="ti ti-star"></i>Feedback Collection</span>
+        <span class="cap-tag"><i class="ti ti-clock-bolt"></i>Renewal Reminders</span>
+        <span class="cap-tag"><i class="ti ti-arrow-up-right"></i>Upsell Triggers</span>
+        <span class="cap-tag"><i class="ti ti-chart-line"></i>NPS Automation</span>
+        <span class="cap-tag"><i class="ti ti-book"></i>Knowledge Base AI</span>
+        <span class="cap-tag"><i class="ti ti-heart-handshake"></i>Customer Success Alerts</span>
+        <span class="cap-tag"><i class="ti ti-alert-triangle"></i>Churn Prediction</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS space bg -->
+<section class="stats-section" id="why-ai">
+  <div class="star-bg" id="stats-stars"></div>
+  <p class="section-label reveal">Why now</p>
+  <h2 class="section-title reveal">The Cost Of<br>Waiting</h2>
+  <div class="stats-intro reveal">
+    <p>Businesses that adopted AI workflows early are compounding their advantage every quarter. The gap between those who move and those who wait is growing faster than most realise.</p>
+  </div>
+  <div class="stats-grid reveal">
+    <div class="stat-box">
+      <div class="stat-num">40%</div>
+      <div class="stat-label">Average reduction in operational costs reported by SMEs after AI workflow implementation</div>
+      <div class="stat-source">McKinsey Global Institute</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">3.5×</div>
+      <div class="stat-label">Revenue growth advantage for AI-first businesses over non-AI competitors</div>
+      <div class="stat-source">Accenture Research</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">72%</div>
+      <div class="stat-label">Of business leaders say AI has already improved team productivity in measurable ways</div>
+      <div class="stat-source">PwC AI Business Survey</div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <p class="section-label">Ready to start</p>
+  <h2 class="section-title">Start With A<br>Free Call</h2>
+  <p>No commitment. No sales pitch. Just a focused 1-hour session where we map your biggest automation opportunities and hand you a clear blueprint free.</p>
+  <a href="#contact" class="btn-dark">Book Your Free Consulting Call</a>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="contact-inner">
+    <div>
+      <p class="section-label reveal">Get in touch</p>
+      <h2 class="section-title reveal">Let's Talk<br>About Your<br>Business</h2>
+      <div class="contact-info reveal">
+        <p>Fill in the form and we'll get back to you within 24 hours to schedule your free consulting call.</p>
+        <p>Prefer to book directly? Use our <a href="#" style="color:white;text-decoration:underline;">Calendly link</a> to pick a time that works for you.</p>
+      </div>
+    </div>
+    <form class="contact-form reveal" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <input type="text" placeholder="Your Name" required>
+        <input type="text" placeholder="Company Name">
+      </div>
+      <input type="email" placeholder="Email Address" required>
+      <input type="tel" placeholder="Phone / WhatsApp">
+      <select>
+        <option value="" disabled selected>What are you interested in?</option>
+        <option>Free AI Opportunity Consulting Call</option>
+        <option>AI Opportunity Audit</option>
+        <option>AI Automation Implementation</option>
+        <option>AI Partner Program (Retainer)</option>
+        <option>Not sure yet let's talk</option>
+      </select>
+      <textarea placeholder="Tell us briefly about your business and what challenges you're facing..."></textarea>
+      <button type="submit">Send Message →</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <a href="#" class="logo" style="font-size:20px;"><span>YSG</span> Consulting</a>
+  <p>© 2025 YSG Consulting. All rights reserved.</p>
+  <p style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.12);">Dubai, UAE</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ── CURSOR (desktop only) ──
+const cursor=document.getElementById('cursor'),follower=document.getElementById('cursorFollower');
+let mx=0,my=0,fx=0,fy=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+(function af(){fx+=(mx-fx)*.1;fy+=(my-fy)*.1;follower.style.left=fx+'px';follower.style.top=fy+'px';requestAnimationFrame(af);})();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{follower.style.width='50px';follower.style.height='50px';follower.style.opacity='.4';});
+  el.addEventListener('mouseleave',()=>{follower.style.width='32px';follower.style.height='32px';follower.style.opacity='1';});
+});
+
+// ── NAV ──
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60));
+
+// ── REVEAL ──
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*90);obs.unobserve(e.target);}});
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// ── FORM ──
+function handleSubmit(e){
+  e.preventDefault();
+  const btn=e.target.querySelector('button');
+  btn.textContent='Message Sent ✓';btn.style.background='#222';btn.style.color='#fff';
+  setTimeout(()=>{btn.textContent='Send Message →';btn.style.background='';btn.style.color='';e.target.reset();},3000);
+}
+
+// ── THREE.JS HERO RINGS (desktop only) ──
+const isDesktop = window.matchMedia('(hover:hover) and (min-width:901px)').matches;
+
+function makeThreeRings(sectionId, ringData, opts={}){
+  if(!isDesktop || typeof THREE === 'undefined') return;
+  const section = document.getElementById(sectionId);
+  if(!section) return;
+  const canvas = document.createElement('canvas');
+  canvas.style.cssText='position:absolute;inset:0;z-index:1;pointer-events:none;width:100%;height:100%;';
+  section.appendChild(canvas);
+  const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  renderer.setClearColor(0x000000,0);
+  const scene=new THREE.Scene();
+  const camera=new THREE.PerspectiveCamera(60,1,.1,100);
+  camera.position.z=4;
+  function resize(){const w=section.offsetWidth,h=section.offsetHeight;renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();}
+  resize();window.addEventListener('resize',resize);
+  const rings=[];
+  ringData.forEach(d=>{
+    const g=new THREE.TorusGeometry(d[0],d[1],d[3],d[2]);
+    const m=new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:d[9]||.08});
+    const mesh=new THREE.Mesh(g,m);mesh.position.set(d[4],d[5],d[6]);mesh.rotation.x=d[7];mesh.rotation.y=d[8];
+    mesh._rx=(Math.random()-.5)*.003;mesh._ry=(Math.random()-.5)*.004;scene.add(mesh);rings.push(mesh);
+  });
+  if(opts.ico){
+    const ico=new THREE.Mesh(new THREE.IcosahedronGeometry(opts.ico[0],1),new THREE.MeshBasicMaterial({color:0xffffff,wireframe:true,transparent:true,opacity:opts.ico[4]||.05}));
+    ico.position.set(opts.ico[1],opts.ico[2],opts.ico[3]);scene.add(ico);
+    rings._ico=ico;
+  }
+  if(opts.oct){
+    const oct=new THREE.Mesh(new THREE.OctahedronGeometry(opts.oct[0],0),new THREE.MeshBasicMaterial({color:0xffffff,wireframe:true,transparent:true,opacity:opts.oct[4]||.07}));
+    oct.position.set(opts.oct[1],opts.oct[2],opts.oct[3]);scene.add(oct);
+    rings._oct=oct;
+  }
+  let tx=0,ty=0,cx=0,cy=0;
+  document.addEventListener('mousemove',e=>{
+    const r=section.getBoundingClientRect();
+    if(e.clientY>r.top-200&&e.clientY<r.bottom+200){
+      tx=(e.clientX/innerWidth-.5)*.4;
+      ty=-(e.clientY/innerHeight-.5)*.25;
+    }
+  });
+  const clock=new THREE.Clock();
+  (function anim(){requestAnimationFrame(anim);const t=clock.getElapsedTime();
+    cx+=(tx-cx)*.04;cy+=(ty-cy)*.04;
+    rings.forEach(r=>{if(r._rx){r.rotation.x+=r._rx;r.rotation.y+=r._ry;}});
+    if(rings._ico){rings._ico.rotation.x=t*.005;rings._ico.rotation.y=t*.008;}
+    if(rings._oct){rings._oct.rotation.x=-t*.007;rings._oct.rotation.z=t*.005;}
+    scene.rotation.y=cx*.18;scene.rotation.x=cy*.12;
+    renderer.render(scene,camera);
+  })();
+}
+
+// Hero
+makeThreeRings('hero',[
+  [2.4,.008,120,8,1.2,.3,-1.5,.4,.2,.10],
+  [1.6,.006,80,6,-1.5,-.5,-.8,-.3,.5,.09],
+  [3.2,.004,140,6,0,0,-3,1.2,.1,.07],
+  [1.0,.007,60,6,2.2,-1,-.5,.6,-.4,.09]
+],{ico:[1.1,2.5,.5,-1,.06],oct:[.7,-2.2,.8,-.5,.08]});
+
+// Services
+makeThreeRings('services',[
+  [2.8,.006,120,8,-1.8,.4,-2,.3,.15,.08],
+  [1.8,.005,80,6,2.,.5,-1,-.4,.4,.07],
+  [3.5,.003,140,6,.5,-.5,-3,.8,.2,.05]
+],{ico:[.9,-2.5,-.5,-1,.05],oct:[.6,2.8,.3,-.5,.07]});
+
+// Benefits
+makeThreeRings('benefits',[
+  [2.2,.007,100,8,2.,-.3,-1.5,.5,.3,.08],
+  [1.5,.005,80,6,-2.,.6,-.8,-.5,.4,.07],
+  [3.,.004,120,6,0,.5,-2.5,1.,.15,.05]
+],{ico:[1.,2.,-1.,-1.2,.05],oct:[.7,-2.5,.4,-.8,.07]});
+
+// Why Us
+makeThreeRings('about',[
+  [2.5,.006,110,8,1.5,.2,-2,.35,.25,.08],
+  [1.7,.005,80,6,-1.8,-.4,-.6,-.4,.5,.07],
+  [3.,.003,130,6,.3,-.3,-3,1.,.1,.05]
+],{ico:[.9,2.2,.8,-1.,.05],oct:[.65,-2.,.5,-.6,.07]});
+
+// Stats
+makeThreeRings('why-ai',[
+  [2.6,.007,120,8,-1.6,.3,-1.8,.4,.2,.08],
+  [1.9,.005,80,6,2.,-.4,-.9,-.3,.45,.07],
+  [3.2,.003,140,6,0,0,-3,1.1,.15,.05]
+],{ico:[1.,-2.2,-.4,-1.,.05],oct:[.7,2.5,.6,-.5,.07]});
+
+// ── CSS STAR FIELD GENERATOR ──
+function makeStars(containerId, count, opts={}){
+  const container=document.getElementById(containerId);
+  if(!container)return;
+  const frag=document.createDocumentFragment();
+  for(let i=0;i<count;i++){
+    const s=document.createElement('span');
+    const size=Math.random()*2+0.5;
+    const x=Math.random()*100, y=Math.random()*100;
+    const dur=(Math.random()*4+2).toFixed(1);
+    const delay=(Math.random()*6).toFixed(1);
+    const minOp=(Math.random()*0.1+0.05).toFixed(2);
+    const maxOp=(Math.random()*0.5+0.3).toFixed(2);
+    const dx1=((Math.random()-.5)*20).toFixed(0)+'px';
+    const dy1=((Math.random()-.5)*20).toFixed(0)+'px';
+    const dx2=((Math.random()-.5)*20).toFixed(0)+'px';
+    const dy2=((Math.random()-.5)*20).toFixed(0)+'px';
+    const dx3=((Math.random()-.5)*20).toFixed(0)+'px';
+    const dy3=((Math.random()-.5)*20).toFixed(0)+'px';
+    s.style.cssText=`
+      width:${size}px;height:${size}px;
+      left:${x}%;top:${y}%;
+      --d:${dur}s;--delay:${delay}s;
+      --min-op:${minOp};--max-op:${maxOp};
+      --dx1:${dx1};--dy1:${dy1};
+      --dx2:${dx2};--dy2:${dy2};
+      --dx3:${dx3};--dy3:${dy3};
+    `;
+    frag.appendChild(s);
+  }
+  container.appendChild(frag);
+}
+
+// Generate stars for each section
+makeStars('hero-stars', 180);
+makeStars('services-stars', 120);
+makeStars('benefits-stars', 120);
+makeStars('whyus-stars', 120);
+makeStars('stats-stars', 140);
+
+// ── MOUSE PARALLAX for star sections (desktop only) ──
+if(window.matchMedia('(hover:hover)').matches){
+  document.addEventListener('mousemove',e=>{
+    const px=(e.clientX/innerWidth-.5)*18;
+    const py=(e.clientY/innerHeight-.5)*12;
+    document.querySelectorAll('.star-bg').forEach(bg=>{
+      const r=bg.parentElement.getBoundingClientRect();
+      if(e.clientY>r.top-100&&e.clientY<r.bottom+100){
+        bg.style.transform=`translate(${px}px,${py}px) scale(1.05)`;
+        bg.style.transition='transform 0.8s cubic-bezier(.22,1,.36,1)';
+      }
+    });
+  });
+}
+</script>
+</body>
+</html>
